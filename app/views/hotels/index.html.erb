@@ -1,0 +1,41 @@
+<p style="color: green"><%= notice %></p>
+
+<!--<h1>Hotels</h1>-->
+
+<!--<div id="hotels">-->
+  <%# @hotels.each do |hotel| %>
+    <%#= render hotel %>
+<!--    <p>-->
+      <%#= link_to "Show this hotel", hotel %>
+      <%#= link_to 'Create room' , new_hotel_room_path(hotel) %>
+
+<!--    </p>-->
+  <%# end %>
+<!--</div>-->
+
+<%#= link_to "New hotel", new_hotel_path %>
+
+
+<!-- app/views/hotels/index.html.erb -->
+
+<div class="container mt-5">
+  <h1 class="mb-4">Hotels
+    <% if current_user.admin? %>
+      <a href="<%= new_hotel_path %>" class="btn btn-primary">Create new hotel</a>
+    <% end %>
+  </h1>
+
+
+  <% @hotels.each do |hotel| %>
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title"><%= hotel.title %></h5>
+        <p class="card-text"><strong>Address:</strong> <%= hotel.address %></p>
+        <a href="<%= hotel_path(hotel) %>" class="btn btn-primary">View Details</a>
+        <% if current_user.admin? %>
+          <a href="<%= new_hotel_room_path(hotel) %>" class="btn btn-primary">Create new room</a>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

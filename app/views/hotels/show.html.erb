@@ -1,0 +1,65 @@
+<!--<p style="color: green"><%#= notice %></p>-->
+
+<%#= render @hotel %>
+
+<!--<div>-->
+<!--  <%#= link_to "Edit this hotel", edit_hotel_path(@hotel) %> |-->
+<!--  <%#= link_to "Back to hotels", hotels_path %> |-->
+
+
+  <%#= button_to "Destroy this hotel", @hotel, method: :delete %>
+<!--</div>-->
+
+
+
+<div class="container mt-5">
+  <h1><%= @hotel.title %></h1>
+  <p class="lead"><strong>Address:</strong> <%= @hotel.address %></p>
+
+  <div class="mb-5 d-flex gap-2">
+    <% if current_user.admin? %>
+      <%= link_to "Edit this hotel", edit_hotel_path(@hotel), class: 'btn btn-primary' %>
+      <%= button_to "Destroy this hotel", @hotel, method: :delete, data: { turbo_confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+      <%= link_to "Create new room", new_hotel_room_path(@hotel), class: "btn btn-primary"%>
+    <% end %>
+    <%= link_to "Back to hotels", hotels_path, class: 'btn btn-secondary' %>
+
+  </div>
+
+  <!-- Rooms List -->
+  <h2>Rooms</h2>
+  <% if @hotel.rooms.any? %>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Room Number</th>
+        <th>Price</th>
+        <th>Description</th>
+        <th>Actions</th>
+
+      </tr>
+      </thead>
+      <tbody>
+      <% @hotel.rooms.order(:number).each do |room| %>
+        <tr>
+          <td><%= room.number %></td>
+          <td><%= number_to_currency(room.price) %></td>
+          <td><%= room.description %></td>
+            <td  class="d-flex gap-2">
+              <% if current_user.admin? %>
+
+                <%#= link_to 'View Booking', bookings_path, class: 'btn btn-info btn-sm mr-1' %>
+                <%= link_to 'Edit', edit_hotel_room_path(@hotel, room), class: 'btn btn-warning btn-sm mr-1' %>
+                <%= button_to 'Delete', hotel_room_path(@hotel, room),  method: :delete, data: {turbo_confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm' %>
+              <% else %>
+                <%= link_to 'Book room', new_room_booking_path(room), class: 'btn btn-info btn-sm mr-1' %>
+              <% end %>
+            </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>No rooms available for this hotel.</p>
+  <% end %>
+</div>

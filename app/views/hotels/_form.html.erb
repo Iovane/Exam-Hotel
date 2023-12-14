@@ -1,0 +1,57 @@
+<%#= form_with(model: hotel) do |form| %>
+  <%# if hotel.errors.any? %>
+<!--    <div style="color: red">-->
+<!--      <h2><%#= pluralize(hotel.errors.count, "error") %> prohibited this hotel from being saved:</h2>-->
+
+<!--      <ul>-->
+        <%# hotel.errors.each do |error| %>
+<!--          <li><%#= error.full_message %></li>-->
+        <%# end %>
+<!--      </ul>-->
+<!--    </div>-->
+  <%# end %>
+
+<!--  <div>-->
+    <%#= form.label :title, style: "display: block" %>
+    <%#= form.text_field :title %>
+<!--  </div>-->
+
+<!--  <div>-->
+    <%#= form.label :address, style: "display: block" %>
+    <%#= form.text_field :address %>
+<!--  </div>-->
+<!--  <br/>-->
+
+<!--  <div>-->
+    <%#= form.submit %>
+<!--  </div>-->
+<%# end %>
+
+
+<%= form_with(model: hotel, class: 'mt-4') do |form| %>
+  <% if hotel.errors.any? %>
+    <div class="alert alert-danger">
+      <h4 class="alert-heading"> <%= pluralize(hotel.errors.count, "error") %> prohibited this hotel from being saved:</h4>
+
+      <ul>
+        <% hotel.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :title %>
+    <%= form.text_field :title, class: 'form-control', placeholder: 'Enter hotel title', required: true %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :address %>
+    <%= form.text_field :address, class: 'form-control', placeholder: 'Enter hotel address', required: true %>
+  </div>
+
+  <div class="mt-3">
+    <%= form.submit 'Save Changes', class: 'btn btn-primary' %>
+  </div> <br/>
+<% end %>

@@ -1,0 +1,53 @@
+<!-- app/views/bookings/index.html.erb -->
+<div class="container-extended mt-5">
+  <h2>Your Bookings</h2>
+
+  <% if @bookings.any? %>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Booking Code</th>
+        <% if current_user.admin? %>
+          <th>User</th>
+        <% end %>
+        <th>Hotel</th>
+        <th>Room Number</th>
+        <th>Booking Start Date</th>
+        <th>Booking End Date</th>
+        <% if current_user.admin? %>
+          <th>Booking Room Price (per night)</th>
+        <% end %>
+        <th>Room Price (per night)</th>
+        <th>Number of Nights</th>
+        <th>Booking Price</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @bookings.each do |booking| %>
+        <tr>
+          <td><%= booking.booking_code %></td>
+
+          <% if current_user.admin? %>
+            <td><%= booking.user.username %></td>
+          <% end %>
+
+          <td><%= booking.room.hotel.title %></td>
+          <td><%= booking.room.number %></td>
+          <td><%= booking.booking_start.strftime('%B %e, %Y') %></td>
+          <td><%= booking.booking_end.strftime('%B %e, %Y') %></td>
+
+          <% if current_user.admin? %>
+            <td><%= number_to_currency(booking.booking_price) %></td>
+          <% end %>
+
+          <td><%= number_to_currency(booking.room.price) %></td>
+          <td><%= booking.booking_period %></td>
+          <td><%= number_to_currency(booking.calculate_booking_price) %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>No bookings available.</p>
+  <% end %>
+</div>
